@@ -22,6 +22,6 @@ end
 #IRB.conf[:PROMPT][:DEFAULT][:RETURN]=Wirble::Colorize.colorize_string(IRB.conf[:PROMPT][:DEFAULT][:RETURN], :brown) 
 
 def ls
-	puts "you are in IRB. Take a breathe, rest.. and try again"
+	puts "you are in IRB. Take a breath, rest.. and try again"
 end
 
