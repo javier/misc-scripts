@@ -25,3 +25,10 @@ def ls
 	puts "you are in IRB. Take a breath, relax.. and try again"
 end
 
+require 'net/http'
+require 'uri'
+
+def _post(url, params)
+  url+="/" unless url =~ /\/$/ 
+  Net::HTTP.post_form(URI.parse(url),params)
+end
