@@ -29,6 +29,8 @@ cp "$SSH_CONFIG" "$SSH_BAK" || { echo "Failed to back up $SSH_CONFIG"; exit 1; }
 NAMES=(
   "enterprise-demo-javier-primary"
   "enterprise-demo-javier-replica"
+  "enterprise-demo-javier-replica"
+  "enterprise-demo-javier-replica"
   "enterprise-replica-stockholm-peered-javier"
   "javier-spx-demo-sender"
   "javier-fosdem-demo"
@@ -37,12 +39,16 @@ NAMES=(
 ALIASES=(
   "enterprise-primary"
   "enterprise-replica"
+  "enterprise-grafana"
+  "enterprise-jupyter"
   "enterprise-replica2"
   "spx-sender"
   "clickbench"
 )
 
 REGIONS=(
+  "eu-west-1"
+  "eu-west-1"
   "eu-west-1"
   "eu-west-1"
   "eu-north-1"
@@ -53,6 +59,8 @@ REGIONS=(
 PEMS=(
   "javier-demos.pem"
   "javier-demos.pem"
+  "javier-demos.pem"
+  "javier-demos.pem"
   "javier-stockholm.pem"
   "javier-demos.pem"
   "javier-demos.pem"
@@ -61,8 +69,13 @@ PEMS=(
 TMP_HOSTS=$(mktemp)
 TMP_SSH=$(mktemp)
 
-# Remove existing managed lines from hosts file
-grep -vE "^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\s+(enterprise-primary|enterprise-replica|enterprise-replica2|spx-sender|clickbench)$" "$HOSTS_FILE" > "$TMP_HOSTS"
+
+# Build a dynamic regex of all aliases
+PATTERN=$(IFS=\|; echo "${ALIASES[*]}")
+
+# Remove all managed aliases from hosts before rewriting
+grep -vE "^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\s+(${PATTERN})$" "$HOSTS_FILE" > "$TMP_HOSTS"
+
 
 # Add marker for managed section
 if ! grep -q '# Managed by update-hosts.sh — do not edit below' "$TMP_HOSTS"; then
