@@ -15,9 +15,12 @@ case "$ACTION" in start|startall|stop|status|reboot) ;; *)
   echo "Usage: $0 {status|start|startall|stop|reboot}"; exit 1 ;;
 esac
 
-# I just use sudo early on, so credentials will be requested on startup, rather than 
-# later when it is needed to update the hosts file
-sudo echo "Issuing EC2 commands"
+if [[ "$ACTION" == "start" || "$ACTION" == "startall" || "$ACTION" == "reboot" ]]; then
+  sudo -v   # prompt for password now, cache credentials for later
+  
+  # I just use sudo early on, so credentials will be requested on startup, rather than 
+  # later when it is needed to update the hosts file
+fi
 
 REGIONS=(eu-west-1 eu-north-1 us-east-1)
 NAME_FILTERS='*javier*,*Javier*,*JAVIER*'   # EC2 tag filter is case-sensitive
