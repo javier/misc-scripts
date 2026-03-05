@@ -1,0 +1,69 @@
+{
+  "eu-west-1": [
+    {
+      "VolumeId": "vol-0726d313ccfec4bbc",
+      "Name": "javier-spx-demo-primary-qdb-root",
+      "Size": 250,
+      "Iops": 16000,
+      "Throughput": 1000
+    },
+    {
+      "VolumeId": "vol-0861c2b58f726d9e3",
+      "Name": "javier-spx-uncompressed-demo-primary-qdb-root",
+      "Size": 2500,
+      "Iops": 26000,
+      "Throughput": 2000
+    },
+    {
+      "VolumeId": "vol-0d83b73d1c3ed1447",
+      "Name": "enterprise-demo-javier-replica",
+      "Size": 200,
+      "Iops": 16000,
+      "Throughput": 1000
+    },
+    {
+      "VolumeId": "vol-03674cbe5fc2affaf",
+      "Name": "javier-spx-demo-sender-root",
+      "Size": 500,
+      "Iops": 4000,
+      "Throughput": 1000
+    },
+    {
+      "VolumeId": "vol-0fb8e69451cce1247",
+      "Name": "enterprise-demo-javier-primary-root",
+      "Size": 70,
+      "Iops": 16000,
+      "Throughput": 1000
+    },
+    {
+      "VolumeId": "vol-09beeb1bdc098ffab",
+      "Name": "enterprise-demo-javier-primary-internal",
+      "Size": 50,
+      "Iops": 3000,
+      "Throughput": 125
+    },
+    {
+      "VolumeId": "vol-0d99d681e608fce16",
+      "Name": "demo-replica-javier-large",
+      "Size": 2000,
+      "Iops": 26000,
+      "Throughput": 2000
+    }
+  ],
+  "eu-north-1": [
+    {
+      "VolumeId": "vol-09caab31ecef906a6",
+      "Name": "enterprise-replica-stockholm-peered-javier",
+      "Size": 200,
+      "Iops": 16000,
+      "Throughput": 1000
+    },
+    {
+      "VolumeId": "vol-066e1d9543e9ba71f",
+      "Name": "demo-replica2-javier-large",
+      "Size": 2000,
+      "Iops": 26000,
+      "Throughput": 2000
+    }
+  ]
+}
