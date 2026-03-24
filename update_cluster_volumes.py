@@ -7,6 +7,20 @@ import sys
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
+AWS_PROFILE = "dev"
+
+
+def ensure_sso_login():
+    result = subprocess.run(
+        ["aws", "sts", "get-caller-identity", "--profile", AWS_PROFILE],
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        print("SSO session expired or not logged in. Logging in...")
+        subprocess.run(["aws", "sso", "login", "--profile", "sso-main"], check=True)
+
+
+ensure_sso_login()
 
 
 def load_config(profile: str) -> dict:
@@ -22,6 +36,7 @@ def get_current_volumes(region: str, pattern: str = "javier") -> list[dict]:
     result = subprocess.run(
         [
             "aws", "ec2", "describe-volumes",
+            "--profile", AWS_PROFILE,
             "--region", region,
             "--filters", f"Name=tag:Name,Values=*{pattern}*",
             "--query",
@@ -71,6 +86,7 @@ def get_volumes_by_ids(region: str, volume_ids: list[str]) -> list[dict]:
     result = subprocess.run(
         [
             "aws", "ec2", "describe-volumes",
+            "--profile", AWS_PROFILE,
             "--region", region,
             "--volume-ids", *volume_ids,
             "--query",
@@ -111,6 +127,7 @@ def modify_volume(region: str, volume_id: str, iops: int, throughput: int):
     subprocess.run(
         [
             "aws", "ec2", "modify-volume",
+            "--profile", AWS_PROFILE,
             "--region", region,
             "--volume-id", volume_id,
             "--iops", str(iops),
@@ -205,8 +222,11 @@ def main():
             if answer == "y":
                 for d in diffs:
                     print(f"Updating {d['Name']} ({d['VolumeId']})...")
-                    modify_volume(d["Region"], d["VolumeId"], d["TargetIops"], d["TargetThroughput"])
-                    print("  Done.")
+                    try:
+                        modify_volume(d["Region"], d["VolumeId"], d["TargetIops"], d["TargetThroughput"])
+                        print("  Done.")
+                    except subprocess.CalledProcessError as e:
+                        print(f"  FAILED: {e}")
                 print("\nAll updates complete.")
             else:
                 print("Cancelled.")
@@ -221,8 +241,11 @@ def main():
                 answer = input("Update this volume? [y/n/c] (y=yes, n=no, c=cancel): ").strip().lower()
                 if answer == "y":
                     print(f"Updating {d['Name']} ({d['VolumeId']})...")
-                    modify_volume(d["Region"], d["VolumeId"], d["TargetIops"], d["TargetThroughput"])
-                    print("  Done.\n")
+                    try:
+                        modify_volume(d["Region"], d["VolumeId"], d["TargetIops"], d["TargetThroughput"])
+                        print("  Done.\n")
+                    except subprocess.CalledProcessError as e:
+                        print(f"  FAILED: {e}\n")
                 elif answer == "c":
                     print("Cancelled.")
                     return

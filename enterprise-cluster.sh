@@ -10,6 +10,13 @@ fi
 
 set -euo pipefail
 
+AWS_PROFILE=dev
+
+if ! aws sts get-caller-identity --profile "$AWS_PROFILE" >/dev/null 2>&1; then
+  echo "SSO session expired or not logged in. Logging in..."
+  aws sso login --profile sso-main
+fi
+
 ACTION="${1:-status}"
 case "$ACTION" in start|startall|stop|status|reboot) ;; *)
   echo "Usage: $0 {status|start|startall|stop|reboot}"; exit 1 ;;
@@ -32,6 +39,7 @@ for r in "${REGIONS[@]}"; do
 
   # Include the exact SPX sender name in the API filter values  ← changed
   output="$(aws ec2 describe-instances \
+      --profile "$AWS_PROFILE" \
       --region "$r" \
       --filters "Name=tag:Name,Values=$NAME_FILTERS,$EXTRA_NAME" \
       --query 'Reservations[].Instances[].[InstanceId, Tags[?Key==`Name`]|[0].Value, State.Name, PrivateIpAddress, PublicIpAddress, InstanceType, Placement.AvailabilityZone]' \
@@ -76,21 +84,21 @@ for r in "${REGIONS[@]}"; do
   # Execute
   if [[ "$ACTION" == "start" || "$ACTION" == "startall" ]]; then
     if [[ ${#ids_to_start[@]} -gt 0 ]]; then
-      aws ec2 start-instances --region "$r" --instance-ids "${ids[@]:-${ids_to_start[@]}}" >/dev/null
-      aws ec2 wait instance-running --region "$r" --instance-ids "${ids_to_start[@]}"
+      aws ec2 start-instances --profile "$AWS_PROFILE" --region "$r" --instance-ids "${ids[@]:-${ids_to_start[@]}}" >/dev/null
+      aws ec2 wait instance-running --profile "$AWS_PROFILE" --region "$r" --instance-ids "${ids_to_start[@]}"
     else
       echo "Nothing to start in $r."
     fi
   elif [[ "$ACTION" == "stop" ]]; then
     if [[ ${#ids_to_stop[@]} -gt 0 ]]; then
-      aws ec2 stop-instances --region "$r" --instance-ids "${ids_to_stop[@]}" >/dev/null
-      aws ec2 wait instance-stopped --region "$r" --instance-ids "${ids_to_stop[@]}"
+      aws ec2 stop-instances --profile "$AWS_PROFILE" --region "$r" --instance-ids "${ids_to_stop[@]}" >/dev/null
+      aws ec2 wait instance-stopped --profile "$AWS_PROFILE" --region "$r" --instance-ids "${ids_to_stop[@]}"
     else
       echo "Nothing to stop in $r."
     fi
   elif [[ "$ACTION" == "reboot" ]]; then
     if [[ ${#ids_to_reboot[@]} -gt 0 ]]; then
-      aws ec2 reboot-instances --region "$r" --instance-ids "${ids_to_reboot[@]}"
+      aws ec2 reboot-instances --profile "$AWS_PROFILE" --region "$r" --instance-ids "${ids_to_reboot[@]}"
     else
       echo "Nothing to reboot in $r."
     fi

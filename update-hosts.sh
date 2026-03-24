@@ -2,6 +2,13 @@
 
 [[ "${BASH_SOURCE[0]}" != "${0}" ]] && DOT_SOURCED=true || DOT_SOURCED=false
 
+AWS_PROFILE=dev
+
+if ! aws sts get-caller-identity --profile "$AWS_PROFILE" >/dev/null 2>&1; then
+  echo "SSO session expired or not logged in. Logging in..."
+  aws sso login --profile sso-main
+fi
+
 DRYRUN=false
 [[ "$1" == "--dryrun" ]] && DRYRUN=true
 
@@ -106,6 +113,7 @@ for ((i = 0; i < ${#NAMES[@]}; i++)); do
   PEM="${PEMS[$i]}"
 
   IP=$(aws ec2 describe-instances \
+    --profile "$AWS_PROFILE" \
     --region "$REGION" \
     --filters "Name=tag:Name,Values=$NAME" "Name=instance-state-name,Values=running" \
     --query "Reservations[].Instances[].PublicIpAddress" \
