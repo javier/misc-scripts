@@ -1,0 +1,133 @@
+{
+  "_comment": [
+    "iTerm2 Dynamic Profile for screencast / Recordly recordings.",
+    "Lives inside the iterm_for_recordly/ folder alongside its AppleScript.",
+    "Symlinked into ~/Library/Application Support/iTerm2/DynamicProfiles/ so iTerm2 auto-loads it.",
+    "Edit this file at its real location, not via the symlink.",
+    "Edits to this file are picked up live by iTerm2 (no restart needed).",
+    "",
+    "Launched via iterm_for_recordly.applescript, which opens a window using this profile",
+    "named 'Recording' at a fixed position and runs zsh with a minimal PROMPT.",
+    "",
+    "Colour scheme: FunForrest (warm autumn palette). To swap to Retro, replace the color",
+    "blocks below with values from /Users/j/Downloads/iterm_themes/Retro.itermcolors.",
+    "Note: Retro collapses all ANSI colours to a single green; only use it when you will NOT",
+    "be showing colourised output (ls, git diff, etc.)."
+  ],
+  "Profiles": [
+    {
+      "Name": "Recording",
+      "Guid": "0883132B-6B1F-407A-9350-E2B5E901CDFE",
+
+      "_comment_font": "Menlo Bold 16 - bold survives video compression (H.264) much better than regular weight.",
+      "Normal Font": "Menlo-Bold 16",
+      "Non Ascii Font": "Menlo-Bold 16",
+      "Use Non-ASCII Font": false,
+      "ASCII Anti Aliased": true,
+      "Non-ASCII Anti Aliased": true,
+      "Use Bold Font": true,
+      "Use Italic Font": true,
+      "Use Bright Bold": true,
+
+      "_comment_strokes": "Thin strokes: 0 = never. Thin anti-aliased strokes are the first thing H.264 compression destroys.",
+      "Thin Strokes": 0,
+
+      "_comment_cursor": "Box cursor, non-blinking. Blinking cursors look distracting in recordings.",
+      "Cursor Type": 2,
+      "Blinking Cursor": false,
+
+      "_comment_bell": "Silence all bells - no audio, no visual flash, no notification spam during recordings.",
+      "Silence Bell": true,
+      "Visual Bell": false,
+      "Flashing Bell": false,
+      "BM Growl": false,
+      "Send Bell Alert": false,
+      "Send Idle Alert": false,
+      "Send New Output Alert": false,
+      "Send Session Ended Alert": false,
+      "Send Terminal Generated Alerts": false,
+
+      "_comment_misc": "Quality-of-life settings for recording.",
+      "Scrollback Lines": 10000,
+      "Unlimited Scrollback": false,
+      "Mouse Reporting": true,
+      "Ambiguous Double Width": false,
+      "Show Status Bar": false,
+
+      "_comment_window": "Title bar visible but minimal - no badge, no custom title escape sequences to worry about.",
+      "Title Components": 1,
+      "Allow Title Reporting": false,
+      "Allow Title Setting": true,
+      "Disable Window Resizing": false,
+
+      "_comment_colors": "------- FunForrest colour scheme below (warm autumn palette) -------",
+
+      "Background Color": {
+        "Red Component": 0.14447517693042755,
+        "Green Component": 0.070890404284000397,
+        "Blue Component": 0.00011771893332479522,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Foreground Color": {
+        "Red Component": 0.86969196796417236,
+        "Green Component": 0.75696802139282227,
+        "Blue Component": 0.39704561233520508,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Bold Color": {
+        "Red Component": 1.0,
+        "Green Component": 0.91585779190063477,
+        "Blue Component": 0.63798940181732178,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Cursor Color": {
+        "Red Component": 0.89861577749252319,
+        "Green Component": 0.35087737441062927,
+        "Blue Component": 0.10984968394041061,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Cursor Text Color": {
+        "Red Component": 0.0,
+        "Green Component": 0.0,
+        "Blue Component": 0.0,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Selection Color": {
+        "Red Component": 0.89861577749252319,
+        "Green Component": 0.35087737441062927,
+        "Blue Component": 0.10984968394041061,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Selected Text Color": {
+        "Red Component": 0.0,
+        "Green Component": 0.0,
+        "Blue Component": 0.0,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+
+      "Ansi 0 Color":  { "Red Component": 0.0,                  "Green Component": 0.0,                  "Blue Component": 0.0,                  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 1 Color":  { "Red Component": 0.8381803035736084,   "Green Component": 0.14706535637378693,  "Blue Component": 0.16930298507213593,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 2 Color":  { "Red Component": 0.56671285629272461,  "Green Component": 0.61131876707077026,  "Blue Component": 0.0,                  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 3 Color":  { "Red Component": 0.74433594942092896,  "Green Component": 0.5431249737739563,   "Blue Component": 0.074850067496299744, "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 4 Color":  { "Red Component": 0.27580299973487854,  "Green Component": 0.59955567121505737,  "Blue Component": 0.63920456171035767,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 5 Color":  { "Red Component": 0.55227649211883545,  "Green Component": 0.26106700301170349,  "Blue Component": 0.19224351644515991,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 6 Color":  { "Red Component": 0.85457485914230347,  "Green Component": 0.50922268629074097,  "Blue Component": 0.073643431067466736, "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 7 Color":  { "Red Component": 0.86747455596923828,  "Green Component": 0.75909930467605591,  "Blue Component": 0.39684996008872986,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 8 Color":  { "Red Component": 0.4978879988193512,   "Green Component": 0.41564899682998657,  "Blue Component": 0.33263117074966431,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 9 Color":  { "Red Component": 0.8975403904914856,   "Green Component": 0.3513694703578949,   "Blue Component": 0.10913152247667313,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 10 Color": { "Red Component": 0.75093626976013184,  "Green Component": 0.77837169170379639,  "Blue Component": 0.35290589928627014,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 11 Color": { "Red Component": 1.0,                  "Green Component": 0.79457473754882812,  "Blue Component": 0.1077420637011528,   "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 12 Color": { "Red Component": 0.48734229803085327,  "Green Component": 0.78951120376586914,  "Blue Component": 0.8110421895980835,   "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 13 Color": { "Red Component": 0.8225366473197937,   "Green Component": 0.38882187008857727,  "Blue Component": 0.28631916642189026,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 14 Color": { "Red Component": 0.9020807147026062,   "Green Component": 0.66441464424133301,  "Blue Component": 0.41996893286705017,  "Alpha Component": 1.0, "Color Space": "sRGB" },
+      "Ansi 15 Color": { "Red Component": 1.0,                  "Green Component": 0.91621249914169312,  "Blue Component": 0.63983982801437378,  "Alpha Component": 1.0, "Color Space": "sRGB" }
+    }
+  ]
+}
