@@ -10,12 +10,6 @@ fi
 
 set -euo pipefail
 
-AWS_PROFILE=dev
-
-if ! aws sts get-caller-identity --profile "$AWS_PROFILE" >/dev/null 2>&1; then
-  echo "SSO session expired or not logged in. Logging in..."
-  aws sso login --profile sso-main
-fi
 
 ACTION="${1:-status}"
 case "$ACTION" in start|startall|stop|status|reboot) ;; *)
@@ -24,10 +18,18 @@ esac
 
 if [[ "$ACTION" == "start" || "$ACTION" == "startall" || "$ACTION" == "reboot" ]]; then
   sudo -v   # prompt for password now, cache credentials for later
-  
-  # I just use sudo early on, so credentials will be requested on startup, rather than 
+
+  # I just use sudo early on, so credentials will be requested on startup, rather than
   # later when it is needed to update the hosts file
 fi
+
+AWS_PROFILE=dev
+
+if ! aws sts get-caller-identity --profile "$AWS_PROFILE" >/dev/null 2>&1; then
+  echo "SSO session expired or not logged in. Logging in..."
+  aws sso login --profile sso-main
+fi
+
 
 REGIONS=(eu-west-1 eu-north-1 us-east-1)
 NAME_FILTERS='*javier*,*Javier*,*JAVIER*'   # EC2 tag filter is case-sensitive
