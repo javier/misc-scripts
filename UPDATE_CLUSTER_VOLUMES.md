@@ -70,6 +70,26 @@ python update_cluster_volumes.py dev --apply
 python update_cluster_volumes.py dev --all --apply
 ```
 
+## Tiers
+
+Now that all QuestDB data lives on the `/data2` volumes (the primary/replica ZFS
+pools were retired), the two configs express two different intents rather than
+just "high vs low everywhere":
+
+| Role | What it is | dev (cheap) | prod (demo) |
+| --- | --- | --- | --- |
+| **data2** | QuestDB data disks (primary + replica `/data2`) | 3000 / 125 | 26000 / 2000 |
+| **sender** | SPX sender root + store-and-forward buffer | 3000 / 125 | 12000 / 1000 |
+| **root** | OS-only boot disks (primary, replica, stockholm `/`) | 3000 / 125 | 6000 / 400 |
+
+- **dev** = gp3 baseline (3000 IOPS / 125 MB/s) on everything: fully operational
+  for functional testing, incurs no IOPS/throughput surcharge, cheapest.
+- **prod** = performance only where it matters. The `/data2` data disks go
+  very high; the sender goes high (throughput-bound store-and-forward, but below
+  data2); the root disks only go **moderate** since they no longer hold data.
+
+The `Role` field in each entry documents intent; the updater ignores it.
+
 ## Config file format
 
 Config files are JSON with regions as keys. Each region contains a list of volumes with their target IOPS and Throughput:
@@ -80,9 +100,10 @@ Config files are JSON with regions as keys. Each region contains a list of volum
     {
       "VolumeId": "vol-0123456789abcdef0",
       "Name": "my-volume",
-      "Size": 200,
-      "Iops": 16000,
-      "Throughput": 1000
+      "Role": "data2 (primary QuestDB data)",
+      "Size": 2500,
+      "Iops": 26000,
+      "Throughput": 2000
     }
   ],
   "eu-north-1": [
@@ -91,7 +112,13 @@ Config files are JSON with regions as keys. Each region contains a list of volum
 }
 ```
 
-Only `Iops` and `Throughput` are used for updates. `Name` and `Size` are kept for reference.
+Only `Iops` and `Throughput` are used for updates. `Name`, `Role`, and `Size` are kept for reference.
+
+A config that still lists a volume that has since been **deleted** no longer
+aborts the run: the volume is reported as `[skip] ... (deleted?)` and ignored.
+When you recreate a data disk (e.g. restoring a replica from backup), the new
+volume gets a new ID, so re-run `--init` to regenerate the config, or add the
+new `VolumeId` by hand.
 
 ## Typical workflow
 

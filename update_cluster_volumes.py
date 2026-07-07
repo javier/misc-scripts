@@ -82,20 +82,29 @@ def init_config(regions: list[str], pattern: str, env: str):
 
 
 def get_volumes_by_ids(region: str, volume_ids: list[str]) -> list[dict]:
-    """Fetch specific volumes by their IDs."""
+    """Fetch specific volumes by their IDs.
+
+    Describes all volumes in the region and filters client-side, so a config
+    that still lists a deleted volume is silently skipped instead of aborting
+    the whole run with InvalidVolume.NotFound.
+    """
+    wanted = set(volume_ids)
     result = subprocess.run(
         [
             "aws", "ec2", "describe-volumes",
             "--profile", AWS_PROFILE,
             "--region", region,
-            "--volume-ids", *volume_ids,
             "--query",
             "Volumes[].{VolumeId:VolumeId,Name:Tags[?Key==`Name`].Value|[0],Size:Size,Iops:Iops,Throughput:Throughput}",
             "--output", "json",
         ],
         capture_output=True, text=True, check=True,
     )
-    return json.loads(result.stdout)
+    found = [v for v in json.loads(result.stdout) if v["VolumeId"] in wanted]
+    missing = wanted - {v["VolumeId"] for v in found}
+    for vid in missing:
+        print(f"  [skip] {vid} in config but not found in {region} (deleted?)")
+    return found
 
 
 def find_diffs(config: dict) -> list[dict]:
