@@ -1,20 +1,20 @@
 {
   "eu-west-1": [
     {
-      "VolumeId": "vol-0861c2b58f726d9e3",
-      "Name": "javier-spx-uncompressed-demo-primary-qdb-root",
+      "VolumeId": "vol-07204163f0aa1d585",
+      "Name": "javier-spx-demo-primary-data2-1000gb",
       "Role": "data2 (primary QuestDB data)",
-      "Size": 2500,
-      "Iops": 26000,
-      "Throughput": 2000
+      "Size": 1000,
+      "Iops": 16000,
+      "Throughput": 1000
     },
     {
-      "VolumeId": "vol-0d99d681e608fce16",
-      "Name": "demo-replica-javier-large",
+      "VolumeId": "vol-031a69a2647f043ee",
+      "Name": "demo-replica-javier-data2-1000gb",
       "Role": "data2 (replica QuestDB data)",
-      "Size": 2000,
-      "Iops": 26000,
-      "Throughput": 2000
+      "Size": 1000,
+      "Iops": 16000,
+      "Throughput": 1000
     },
     {
       "VolumeId": "vol-03674cbe5fc2affaf",
