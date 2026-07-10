@@ -1,10 +1,26 @@
 {
   "eu-west-1": [
     {
+      "VolumeId": "vol-09beeb1bdc098ffab",
+      "Name": "enterprise-demo-javier-primary-internal",
+      "Role": "root (primary OS disk)",
+      "Size": 50,
+      "Iops": 3000,
+      "Throughput": 125
+    },
+    {
       "VolumeId": "vol-07204163f0aa1d585",
       "Name": "javier-spx-demo-primary-data2-1000gb",
       "Role": "data2 (primary QuestDB data)",
       "Size": 1000,
+      "Iops": 3000,
+      "Throughput": 125
+    },
+    {
+      "VolumeId": "vol-0d83b73d1c3ed1447",
+      "Name": "enterprise-demo-javier-replica",
+      "Role": "root (replica OS disk)",
+      "Size": 200,
       "Iops": 3000,
       "Throughput": 125
     },
@@ -23,29 +39,13 @@
       "Size": 500,
       "Iops": 3000,
       "Throughput": 125
-    },
-    {
-      "VolumeId": "vol-09beeb1bdc098ffab",
-      "Name": "enterprise-demo-javier-primary-internal",
-      "Role": "root (primary OS disk)",
-      "Size": 50,
-      "Iops": 3000,
-      "Throughput": 125
-    },
-    {
-      "VolumeId": "vol-0d83b73d1c3ed1447",
-      "Name": "enterprise-demo-javier-replica",
-      "Role": "root (replica OS disk)",
-      "Size": 200,
-      "Iops": 3000,
-      "Throughput": 125
     }
   ],
   "eu-north-1": [
     {
       "VolumeId": "vol-09caab31ecef906a6",
       "Name": "enterprise-replica-stockholm-peered-javier",
-      "Role": "root (stockholm OS disk)",
+      "Role": "root (stockholm/replica2 OS disk)",
       "Size": 200,
       "Iops": 3000,
       "Throughput": 125

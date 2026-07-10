@@ -1,30 +1,6 @@
 {
   "eu-west-1": [
     {
-      "VolumeId": "vol-07204163f0aa1d585",
-      "Name": "javier-spx-demo-primary-data2-1000gb",
-      "Role": "data2 (primary QuestDB data)",
-      "Size": 1000,
-      "Iops": 16000,
-      "Throughput": 1000
-    },
-    {
-      "VolumeId": "vol-031a69a2647f043ee",
-      "Name": "demo-replica-javier-data2-1000gb",
-      "Role": "data2 (replica QuestDB data)",
-      "Size": 1000,
-      "Iops": 16000,
-      "Throughput": 1000
-    },
-    {
-      "VolumeId": "vol-03674cbe5fc2affaf",
-      "Name": "javier-spx-demo-sender-root",
-      "Role": "sender (store-and-forward, high but below data2)",
-      "Size": 500,
-      "Iops": 12000,
-      "Throughput": 1000
-    },
-    {
       "VolumeId": "vol-09beeb1bdc098ffab",
       "Name": "enterprise-demo-javier-primary-internal",
       "Role": "root (primary OS disk, moderate)",
@@ -33,19 +9,43 @@
       "Throughput": 400
     },
     {
+      "VolumeId": "vol-07204163f0aa1d585",
+      "Name": "javier-spx-demo-primary-data2-1000gb",
+      "Role": "data2 (primary QuestDB data)",
+      "Size": 1000,
+      "Iops": 26000,
+      "Throughput": 2000
+    },
+    {
       "VolumeId": "vol-0d83b73d1c3ed1447",
       "Name": "enterprise-demo-javier-replica",
       "Role": "root (replica OS disk, moderate)",
       "Size": 200,
       "Iops": 6000,
       "Throughput": 400
+    },
+    {
+      "VolumeId": "vol-031a69a2647f043ee",
+      "Name": "demo-replica-javier-data2-1000gb",
+      "Role": "data2 (replica QuestDB data)",
+      "Size": 1000,
+      "Iops": 26000,
+      "Throughput": 2000
+    },
+    {
+      "VolumeId": "vol-03674cbe5fc2affaf",
+      "Name": "javier-spx-demo-sender-root",
+      "Role": "sender (store-and-forward, high but below data2)",
+      "Size": 500,
+      "Iops": 12000,
+      "Throughput": 1000
     }
   ],
   "eu-north-1": [
     {
       "VolumeId": "vol-09caab31ecef906a6",
       "Name": "enterprise-replica-stockholm-peered-javier",
-      "Role": "root (stockholm OS disk, moderate)",
+      "Role": "root (stockholm/replica2 OS disk, moderate)",
       "Size": 200,
       "Iops": 6000,
       "Throughput": 400

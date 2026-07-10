@@ -73,20 +73,28 @@ python update_cluster_volumes.py dev --all --apply
 ## Tiers
 
 Now that all QuestDB data lives on the `/data2` volumes (the primary/replica ZFS
-pools were retired), the two configs express two different intents rather than
-just "high vs low everywhere":
+pools were retired, and `/data2` was shrunk to **1000 GB** each in the 2026-07
+migration), the two configs express two different intents rather than just
+"high vs low everywhere":
 
 | Role | What it is | dev (cheap) | prod (demo) |
 | --- | --- | --- | --- |
-| **data2** | QuestDB data disks (primary + replica `/data2`) | 3000 / 125 | 26000 / 2000 |
+| **data2** | QuestDB data disks (primary + replica `/data2`, 1000 GB) | 3000 / 125 | 26000 / 2000 |
 | **sender** | SPX sender root + store-and-forward buffer | 3000 / 125 | 12000 / 1000 |
 | **root** | OS-only boot disks (primary, replica, stockholm `/`) | 3000 / 125 | 6000 / 400 |
 
 - **dev** = gp3 baseline (3000 IOPS / 125 MB/s) on everything: fully operational
   for functional testing, incurs no IOPS/throughput surcharge, cheapest.
 - **prod** = performance only where it matters. The `/data2` data disks go
-  very high; the sender goes high (throughput-bound store-and-forward, but below
-  data2); the root disks only go **moderate** since they no longer hold data.
+  **very high (26000 IOPS / 2000 MB/s)**; the sender goes high (throughput-bound
+  store-and-forward, but below data2); the root disks only go **moderate** since
+  they no longer hold data.
+
+> **Note:** these gp3 volumes accept **26000 IOPS / 2000 MB/s** in this
+> account/region — higher than the commonly-cited gp3 max of 16000 / 1000, which
+> is a documentation figure, not the enforced limit here. Verified by an accepted
+> `modify-volume`. Dropping data2 below the original 26000 / 2000 measurably slows
+> large scans, so keep prod at these values.
 
 The `Role` field in each entry documents intent; the updater ignores it.
 
@@ -101,7 +109,7 @@ Config files are JSON with regions as keys. Each region contains a list of volum
       "VolumeId": "vol-0123456789abcdef0",
       "Name": "my-volume",
       "Role": "data2 (primary QuestDB data)",
-      "Size": 2500,
+      "Size": 1000,
       "Iops": 26000,
       "Throughput": 2000
     }
